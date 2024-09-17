@@ -92,7 +92,6 @@ vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
--- vim.editorconfig.indent_style = 'space'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -848,6 +847,19 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
+  {
+    'folke/persistence.nvim',
+    event = 'BufReadPre',
+    opts = {},
+  -- stylua: ignore
+  keys = {
+    { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+    { "<leader>qS", function() require("persistence").select() end,desc = "Select Session" },
+    { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+    { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+  }
+,
+  },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -954,6 +966,11 @@ require('lazy').setup({
     },
   },
 })
+-- 4 Spaces for tab
+vim.o.tabstop = 4
+vim.o.expandtab = true
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
