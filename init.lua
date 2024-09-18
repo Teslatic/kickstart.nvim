@@ -971,6 +971,11 @@ vim.o.tabstop = 4
 vim.o.expandtab = true
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
+vim.api.nvim_create_autocmd('VimEnter', {
+  desc = 'Open NeoTree on startup',
+  command = 'Neotree',
+})
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
