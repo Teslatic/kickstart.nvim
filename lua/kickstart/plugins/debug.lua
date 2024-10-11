@@ -67,9 +67,15 @@ return {
     }
     dap.adapters.lldb = {
       type = 'executable',
-      command = '/usr/bin/lldb', -- adjust as needed, must be absolute path
+      command = '/usr/bin/lldb-vscode-16', -- adjust as needed, must be absolute path
       name = 'lldb',
     }
+    --dap.adapters.gdb = {
+    --  type = 'executable',
+    --  command = '/usr/bin/gdb', -- adjust as needed, must be absolute path
+    --  name = 'gdb',
+    --}
+
     dap.configurations.c = {
       {
         name = 'Launch',
@@ -94,6 +100,19 @@ return {
         -- But you should be aware of the implications:
         -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
         -- runInTerminal = false,
+      },
+    }
+    dap.configurations.cpp = {
+      {
+        name = 'Launch-lldb',
+        type = 'lldb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        args = {},
       },
     }
 
