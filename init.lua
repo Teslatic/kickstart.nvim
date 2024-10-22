@@ -6,7 +6,7 @@
 ========                                    .-----.          ========
 ========         .----------------------.   | === |          ========
 ========         |.-""""""""""""""""""-.|   |-----|          ========
-========         ||                    ||   | === |          ========
+========         ||                    ||   | === |          ========ini
 ========         ||   KICKSTART.NVIM   ||   |-----|          ========
 ========         ||                    ||   | === |          ========
 ========         ||                    ||   |-----|          ========
@@ -49,15 +49,15 @@ Kickstart Guide:
       - <escape key>
       - :
       - Tutor
-      - <enter key>
+    - <enter key>
 
-    (If you already know the Neovim basics, you can skip this step.)
+  (If you already know the Neovim basics, you can skip this step.)
 
-  Once you've completed that, you can continue working through **AND READING** the rest
-  of the kickstart init.lua.
+Once you've completed that, you can continue working through **AND READING** the rest
+of the kickstart init.lua.
 
-  Next, run AND READ `:help`.
-    This will open up a help window with some basic information
+Next, run AND READ `:help`.
+  This will open up a help window with some basic information
     about reading, navigating and searching the builtin help documentation.
 
     This should be the first place you go to look when you're stuck or confused
@@ -979,6 +979,30 @@ vim.api.nvim_create_autocmd('VimEnter', {
 })
 
 vim.g.indent_style = 'space'
+
+-- Diagnostic modification
+vim.diagnostic.config {
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+}
+
+vim.api.nvim_create_autocmd('CursorHold', {
+  buffer = bufnr,
+  callback = function()
+    local opts = {
+      focusable = false,
+      close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+      border = 'rounded',
+      source = 'always',
+      prefix = ' ',
+      scope = 'cursor',
+    }
+    vim.diagnostic.open_float(nil, opts)
+  end,
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
